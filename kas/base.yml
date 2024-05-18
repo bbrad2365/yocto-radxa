@@ -1,0 +1,67 @@
+header:
+  version: 16
+
+machine: zero-3w
+distro: poky
+target:
+  - core-image-base
+
+defaults:
+  repos:
+    branch: scarthgap
+
+repos:
+  meta-radxa:
+    path: meta-radxa
+
+  meta-rockchip:
+    url: https://git.yoctoproject.org/git/meta-rockchip
+    branch: master
+    commit: 88f2064ca2b83b42a7c8a59616ab80b763ef2485
+    path: layers/meta-rockchip
+
+  meta-arm:
+    url: https://git.yoctoproject.org/git/meta-arm
+    commit: 1200a59db6a484618bd42ecb1d7d1e3593eb7708
+    path: layers/meta-arm
+    layers:
+      meta-arm:
+      meta-arm-toolchain:
+
+
+  poky:
+    url: https://git.yoctoproject.org/git/poky
+    commit: 68f9a4b73d17839e0ec1f12a31fc1d42331cc42f
+    path: layers/poky
+    layers:
+      meta:
+      meta-poky:
+      meta-yocto-bsp:
+
+  meta-openembedded:
+    url: http://git.openembedded.org/meta-openembedded
+    commit: 6de0ab744341ad61b0661aa28d78dc6767ce0786
+    path: layers/meta-openembedded
+    layers:
+      meta-oe:
+      meta-python:
+      meta-networking:
+      meta-perl:
+
+  meta-clang:
+    url: https://github.com/kraj/meta-clang
+    commit: e7dceb1c92caf7f21ef1d7b49c85328c30cffd90
+    path: layers/meta-clang
+
+local_conf_header:
+  reduce_diskspace: |
+    INHERIT += "rm_work_and_downloads"
+  standard: |
+    CONF_VERSION = "2"
+    PACKAGE_CLASSES = "package_rpm"
+  wayland: |
+    DISTRO_FEATURES:append = " wayland"
+  debug-tweaks: |
+    EXTRA_IMAGE_FEATURES = "debug-tweaks"
+  bmap: |
+    IMAGE_FSTYPES += "wic.bmap"
